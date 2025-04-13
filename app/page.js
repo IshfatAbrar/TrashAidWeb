@@ -5,6 +5,9 @@ import SponsorSection from "../components/SponsorSection";
 import TrashBinMap from "../components/TrashBinMap";
 import { getTrashCounts } from "../lib/actions";
 
+// Set revalidation to 0 to always fetch fresh data
+export const revalidate = 0;
+
 export default async function Home() {
   // Fetch trash counts from MongoDB
   const trashData = await getTrashCounts();
