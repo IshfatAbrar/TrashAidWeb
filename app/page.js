@@ -256,8 +256,8 @@ export default function Home() {
                 </h3>
                 <p className="text-xl text-green-600 mb-4">1,247 kg</p>
                 <p className="text-center text-green-600">
-                  By properly categorizing and recycling trash, we've reduced
-                  CO2 emissions equivalent to planting 62 trees.
+                  By properly categorizing and recycling trash, we&apos;ve
+                  reduced CO2 emissions equivalent to planting 62 trees.
                 </p>
               </div>
 
@@ -283,8 +283,8 @@ export default function Home() {
                 </h3>
                 <p className="text-xl text-green-600 mb-4">3,741 liters</p>
                 <p className="text-center text-green-600">
-                  Through proper waste management, we've saved water equivalent
-                  to 15 days of household usage.
+                  Through proper waste management, we&apos;ve saved water
+                  equivalent to 15 days of household usage.
                 </p>
               </div>
             </div>

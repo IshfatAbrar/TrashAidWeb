@@ -36,13 +36,13 @@ const TrashBinMap = () => {
 
         // Create SVG marker icon using FontAwesome trash icon
         const markerSvg = {
-          path: "M135.2 17.7L128 32H32C14.3 32 0 46.3 0 64S14.3 96 32 96H416c17.7 0 32-14.3 32-32s-14.3-32-32-32H320l-7.2-14.3C307.4 6.8 296.3 0 284.2 0H163.8c-12.1 0-23.2 6.8-28.6 17.7zM416 128H32L53.2 467c1.6 25.3 22.6 45 47.9 45H346.9c25.3 0 46.3-19.7 47.9-45L416 128z", // FontAwesome trash icon path
-          fillColor: "oklch(72.3% 0.219 149.579)", // Green color
+          path: "M135.2 17.7L128 32H32C14.3 32 0 46.3 0 64S14.3 96 32 96H416c17.7 0 32-14.3 32-32s-14.3-32-32-32H320l-7.2-14.3C307.4 6.8 296.3 0 284.2 0H163.8c-12.1 0-23.2 6.8-28.6 17.7zM416 128H32L53.2 467c1.6 25.3 22.6 45 47.9 45H346.9c25.3 0 46.3-19.7 47.9-45L416 128z",
+          fillColor: "oklch(72.3% 0.219 149.579)",
           fillOpacity: 1,
           strokeWeight: 0,
           rotation: 0,
-          scale: 0.05, // Adjust scale to make the icon smaller
-          anchor: new google.maps.Point(224, 256), // Center point of the icon
+          scale: 0.05,
+          anchor: new google.maps.Point(224, 256),
         };
 
         // Add markers for each trash bin location
@@ -74,6 +74,19 @@ const TrashBinMap = () => {
 
     initMap();
   }, []);
+
+  if (!process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY) {
+    return (
+      <div className="w-full h-[500px] rounded-lg overflow-hidden shadow-lg bg-red-50 flex items-center justify-center">
+        <div className="text-red-600 text-center p-4">
+          <p className="font-semibold">Google Maps API key is missing</p>
+          <p className="text-sm mt-2">
+            Please check your configuration and try again
+          </p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="w-full h-[500px] rounded-lg overflow-hidden shadow-lg">
