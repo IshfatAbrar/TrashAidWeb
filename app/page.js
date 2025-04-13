@@ -3,8 +3,23 @@ import Header from "../components/Header";
 import Footer from "../components/Footer";
 import SponsorSection from "../components/SponsorSection";
 import TrashBinMap from "../components/TrashBinMap";
+import { getTrashCounts } from "../lib/actions";
 
-export default function Home() {
+export default async function Home() {
+  // Fetch trash counts from MongoDB
+  const trashData = await getTrashCounts();
+
+  // Calculate percentages
+  const total = trashData.total || 0;
+  const recyclablePercentage =
+    total > 0 ? Math.round((trashData.recyclable / total) * 100) : 0;
+  const compostPercentage =
+    total > 0 ? Math.round((trashData.compost / total) * 100) : 0;
+  const landfillPercentage =
+    total > 0 ? Math.round((trashData.landfill / total) * 100) : 0;
+  const otherPercentage =
+    100 - recyclablePercentage - compostPercentage - landfillPercentage;
+
   return (
     <div className="min-h-screen bg-[#FAFCF3]">
       <Header />
@@ -74,7 +89,7 @@ export default function Home() {
               {/* Stats Card 1 */}
               <div className="bg-white rounded-lg shadow-lg p-6 text-center">
                 <div className="text-5xl font-bold text-green-600 mb-2">
-                  1,247
+                  {total}
                 </div>
                 <h3 className="text-xl font-semibold text-green-700 mb-2">
                   Items Categorized
@@ -87,7 +102,7 @@ export default function Home() {
               {/* Stats Card 2 */}
               <div className="bg-white rounded-lg shadow-lg p-6 text-center">
                 <div className="text-5xl font-bold text-green-600 mb-2">
-                  78%
+                  {recyclablePercentage}%
                 </div>
                 <h3 className="text-xl font-semibold text-green-700 mb-2">
                   Recyclable
@@ -100,7 +115,7 @@ export default function Home() {
               {/* Stats Card 3 */}
               <div className="bg-white rounded-lg shadow-lg p-6 text-center">
                 <div className="text-5xl font-bold text-green-600 mb-2">
-                  22%
+                  {100 - recyclablePercentage}%
                 </div>
                 <h3 className="text-xl font-semibold text-green-700 mb-2">
                   Non-Recyclable
@@ -136,10 +151,12 @@ export default function Home() {
                       </svg>
                     </div>
                     <h4 className="text-lg font-semibold text-green-700">
-                      Plastic
+                      Recyclable
                     </h4>
                   </div>
-                  <div className="text-3xl font-bold text-blue-600">42%</div>
+                  <div className="text-3xl font-bold text-blue-600">
+                    {recyclablePercentage}%
+                  </div>
                   <p className="text-blue-600">of categorized items</p>
                 </div>
 
@@ -162,10 +179,12 @@ export default function Home() {
                       </svg>
                     </div>
                     <h4 className="text-lg font-semibold text-green-700">
-                      Organic
+                      Compost
                     </h4>
                   </div>
-                  <div className="text-3xl font-bold text-green-600">28%</div>
+                  <div className="text-3xl font-bold text-green-600">
+                    {compostPercentage}%
+                  </div>
                   <p className="text-green-600">of categorized items</p>
                 </div>
 
@@ -188,10 +207,12 @@ export default function Home() {
                       </svg>
                     </div>
                     <h4 className="text-lg font-semibold text-green-700">
-                      Paper
+                      Landfill
                     </h4>
                   </div>
-                  <div className="text-3xl font-bold text-yellow-600">18%</div>
+                  <div className="text-3xl font-bold text-yellow-600">
+                    {landfillPercentage}%
+                  </div>
                   <p className="text-yellow-600">of categorized items</p>
                 </div>
 
@@ -217,7 +238,9 @@ export default function Home() {
                       Other
                     </h4>
                   </div>
-                  <div className="text-3xl font-bold text-red-600">12%</div>
+                  <div className="text-3xl font-bold text-red-600">
+                    {otherPercentage}%
+                  </div>
                   <p className="text-red-600">of categorized items</p>
                 </div>
               </div>
@@ -254,10 +277,11 @@ export default function Home() {
                 <h3 className="text-2xl font-bold text-green-700 mb-2">
                   CO2 Reduction
                 </h3>
-                <p className="text-xl text-green-600 mb-4">1,247 kg</p>
+                <p className="text-xl text-green-600 mb-4">{total} kg</p>
                 <p className="text-center text-green-600">
                   By properly categorizing and recycling trash, we&apos;ve
-                  reduced CO2 emissions equivalent to planting 62 trees.
+                  reduced CO2 emissions equivalent to planting{" "}
+                  {Math.round(total / 20)} trees.
                 </p>
               </div>
 
@@ -281,10 +305,13 @@ export default function Home() {
                 <h3 className="text-2xl font-bold text-green-700 mb-2">
                   Water Saved
                 </h3>
-                <p className="text-xl text-green-600 mb-4">3,741 liters</p>
+                <p className="text-xl text-green-600 mb-4">
+                  {total * 3} liters
+                </p>
                 <p className="text-center text-green-600">
                   Through proper waste management, we&apos;ve saved water
-                  equivalent to 15 days of household usage.
+                  equivalent to {Math.round((total * 3) / 250)} days of
+                  household usage.
                 </p>
               </div>
             </div>
